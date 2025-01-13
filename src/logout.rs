@@ -1,9 +1,18 @@
+//! Handles user logout operations
+
 use tracing::{debug, error, instrument, trace_span, Instrument};
 
 use crate::util::handle_response_code;
 use crate::{AuthClient, AuthError};
 
 impl AuthClient {
+    /// Logs out a user by invalidating their token
+    ///
+    /// # Arguments
+    /// * `token` - The access token to invalidate
+    ///
+    /// # Returns
+    /// * `Result<(), AuthError>` - Success or error
     #[instrument(skip_all)]
     pub async fn logout(&self, token: &str) -> Result<(), AuthError> {
         let resp = match self

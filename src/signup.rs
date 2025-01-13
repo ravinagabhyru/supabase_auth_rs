@@ -1,3 +1,5 @@
+//! Handles user signup operations
+
 use std::collections::HashMap;
 
 use serde::{Deserialize, Serialize};
@@ -8,21 +10,33 @@ use crate::models::user::UserSchema;
 use crate::util::handle_response_code;
 use crate::{AuthClient, IdType};
 
+/// Request payload for user signup
 #[derive(Debug, Serialize, Deserialize)]
 struct SignupRequest {
+    /// User's email address
     pub email: Option<String>,
+    /// User's phone number
     pub phone_number: Option<String>,
+    /// User's password
     pub password: String,
+    /// Additional user metadata
     pub data: Option<HashMap<String, String>>,
 }
 
+/// Response from a successful signup
 #[derive(Debug, Serialize, Deserialize)]
 struct SignupResponse {
+    /// JWT access token
     pub access_token: String,
+    /// Token type (usually "bearer")
     pub token_type: String,
+    /// Token expiration time in seconds
     pub expires_in: i64,
+    /// Timestamp when token expires
     pub expires_at: i64,
+    /// Refresh token for obtaining new access tokens
     pub refresh_token: String,
+    /// Created user data
     pub user: UserSchema,
 }
 

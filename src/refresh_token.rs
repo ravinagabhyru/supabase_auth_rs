@@ -1,3 +1,5 @@
+//! Handles token refresh operations
+
 use serde::{Deserialize, Serialize};
 use tracing::{debug, error, info, instrument, trace_span, Instrument};
 
@@ -6,12 +8,21 @@ use crate::models::token::TokenResponse;
 use crate::util::handle_response_code;
 use crate::AuthClient;
 
+/// Request payload for refreshing an authentication token
 #[derive(Debug, Serialize, Deserialize)]
 struct TokenRefreshGrant {
+    /// The refresh token to use
     pub refresh_token: String,
 }
 
 impl AuthClient {
+    /// Refreshes an authentication token
+    ///
+    /// # Arguments
+    /// * `token` - The refresh token to use
+    ///
+    /// # Returns
+    /// * `Result<TokenResponse, AuthError>` - New token response or error
     #[instrument(skip(self))]
     pub async fn refresh_token(&self, token: &str) -> Result<TokenResponse, AuthError> {
         if token.is_empty() {

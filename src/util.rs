@@ -1,8 +1,16 @@
+//! Utility functions for handling HTTP responses and other common operations
+
 use reqwest::StatusCode;
 use tracing::{debug, info, instrument};
-
 use crate::AuthError;
 
+/// Handles HTTP response status codes and maps them to appropriate AuthErrors
+///
+/// # Arguments
+/// * `resp_status` - The HTTP status code to evaluate
+///
+/// # Returns
+/// * `Result<(), AuthError>` - Ok if status is successful, appropriate error otherwise
 #[instrument]
 pub(super) async fn handle_response_code(resp_status: StatusCode) -> Result<(), AuthError> {
     info!(response.status = resp_status.as_u16());

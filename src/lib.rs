@@ -1,3 +1,9 @@
+//! Supabase Auth client library for Rust
+//! 
+//! This crate provides a Rust interface to the Supabase Auth API.
+//! It handles authentication operations like signup, signin, token refresh,
+//! and user management.
+
 use std::fmt::{Display, Formatter};
 
 use postgrest::Postgrest;
@@ -19,16 +25,30 @@ mod signup;
 mod util;
 mod delete_user;
 
+/// Main client for interacting with Supabase Auth
 #[derive(Clone, Debug)]
 pub struct AuthClient {
+    /// HTTP client for making requests
     http_client: reqwest::Client,
+    /// Base URL for the Supabase API
     supabase_api_url: String,
+    /// Anonymous API key for authentication
     supabase_anon_key: String,
+    /// Client for making PostgreSQL REST API calls
     #[allow(unused)]
+    #[derive(Debug)]
     postgrest_client: Postgrest,
 }
 
 impl AuthClient {
+    /// Creates a new AuthClient instance
+    ///
+    /// # Arguments
+    /// * `api_url` - Base URL for the Supabase API
+    /// * `anon_key` - Anonymous API key for authentication
+    ///
+    /// # Returns
+    /// * `Result<Self, anyhow::Error>` - New client instance or error
     pub fn new(api_url: &str, anon_key: &str) -> anyhow::Result<Self> {
         Ok(Self {
             http_client: reqwest::Client::new(),
@@ -41,11 +61,16 @@ impl AuthClient {
     }
 }
 
+/// Represents an error response from the Supabase Auth API
 #[derive(Debug, Error, Deserialize, Serialize)]
 pub struct ErrorSchema {
+    /// Numeric error code
     pub code: Option<u8>,
+    /// Error type/name
     pub error: Option<String>,
+    /// Detailed error description
     pub error_description: Option<String>,
+    /// Error message
     pub msg: Option<String>,
 }
 
@@ -63,8 +88,11 @@ impl Display for ErrorSchema {
     }
 }
 
+/// Types of user identifiers supported for authentication
 #[derive(Debug)]
 pub enum IdType {
+    /// Email address
     Email(String),
+    /// Phone number
     PhoneNumber(String),
 }

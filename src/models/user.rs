@@ -1,11 +1,14 @@
-use std::collections::HashMap;
+//! User-related data structures
 
+use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
+/// Represents a user in the system
 #[derive(Debug, Clone, Default, Deserialize, Serialize, PartialEq, Eq)]
 #[serde(default)]
 pub struct UserSchema {
+    /// Unique identifier for the user
     pub id: Uuid,
 
     pub aud: String,
