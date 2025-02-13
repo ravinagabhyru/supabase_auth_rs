@@ -1,5 +1,5 @@
 //! Supabase Auth client library for Rust
-//! 
+//!
 //! This crate provides a Rust interface to the Supabase Auth API.
 //! It handles authentication operations like signup, signin, token refresh,
 //! and user management.
@@ -26,7 +26,7 @@ mod util;
 mod delete_user;
 
 /// Main client for interacting with Supabase Auth
-#[derive(Clone, Debug)]
+#[derive(Clone)]
 pub struct AuthClient {
     /// HTTP client for making requests
     http_client: reqwest::Client,
@@ -36,7 +36,6 @@ pub struct AuthClient {
     supabase_anon_key: String,
     /// Client for making PostgreSQL REST API calls
     #[allow(unused)]
-    #[derive(Debug)]
     postgrest_client: Postgrest,
 }
 
